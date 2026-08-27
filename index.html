@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="rtl" lang="ar">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Amjad Budget</title>
+    <title>ميزانية أمجد | ***** Budget</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #090d16;
             --card-bg: rgba(18, 24, 38, 0.7);
             --card-border: rgba(255, 255, 255, 0.08);
             --card-glow: rgba(99, 102, 241, 0.05);
-            
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            
             --gold: #f59e0b;
             --gold-glow: rgba(245, 158, 11, 0.25);
             --accent: #6366f1;
@@ -24,7 +23,6 @@
             --emerald: #10b981;
             --emerald-glow: rgba(16, 185, 129, 0.2);
             --rose: #f43f5e;
-            
             --radius-lg: 24px;
             --radius-md: 16px;
             --radius-sm: 12px;
@@ -34,13 +32,13 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            font-family: 'Cairo', 'Plus Jakarta Sans', -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg);
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%);
             background-attachment: fixed;
@@ -49,7 +47,6 @@
             min-height: 100vh;
         }
 
-        /* Ambient Glow Header */
         header {
             background: rgba(9, 13, 22, 0.85);
             backdrop-filter: blur(20px);
@@ -65,7 +62,7 @@
         }
 
         header h1 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space Grotesk', 'Cairo', sans-serif;
             font-size: 1.35rem;
             font-weight: 700;
             letter-spacing: -0.02em;
@@ -83,10 +80,8 @@
             padding: 4px 10px;
             border-radius: 20px;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
         }
 
-        /* Layout */
         main {
             padding: 20px 16px;
             max-width: 600px;
@@ -103,11 +98,17 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Glassmorphism Cards */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -124,15 +125,17 @@
         .card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
         }
 
         .card-title {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.08em;
             color: var(--text-muted);
             margin-bottom: 16px;
             font-weight: 700;
@@ -152,24 +155,23 @@
         }
 
         .stat-val {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space Grotesk', 'Cairo', sans-serif;
             font-size: 1.45rem;
             font-weight: 700;
             color: var(--text-main);
-            letter-spacing: -0.02em;
         }
 
         .stat-lbl {
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-top: 4px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* Glowing Progress Bar */
         .progress-container {
             margin-top: 14px;
         }
+
         .progress-bar-bg {
             background: rgba(255, 255, 255, 0.06);
             height: 10px;
@@ -178,6 +180,7 @@
             margin: 10px 0;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         .progress-bar-fill {
             background: linear-gradient(90deg, #6366f1, #a855f7);
             box-shadow: 0 0 12px var(--accent-glow);
@@ -187,24 +190,61 @@
             border-radius: 20px;
         }
 
-        /* List Styling */
         .list-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: opacity 0.2s;
         }
 
         .list-item:last-child {
             border-bottom: none;
         }
 
-        /* Floating Add Button */
+        .item-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            position: relative;
+            outline: none;
+            transition: all 0.2s ease;
+            margin-left: 10px;
+        }
+
+        .item-checkbox:checked {
+            background: var(--emerald);
+            border-color: var(--emerald);
+            box-shadow: 0 0 10px var(--emerald-glow);
+        }
+
+        .item-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000;
+            font-weight: 900;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .paid-text {
+            text-decoration: line-through;
+            color: var(--text-muted) !important;
+            opacity: 0.6;
+        }
+
         .fab {
             position: fixed;
             bottom: 82px;
-            right: 20px;
+            left: 20px;
             background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
             color: #000000;
             border: none;
@@ -212,21 +252,21 @@
             padding: 14px 26px;
             font-size: 0.95rem;
             font-weight: 800;
-            letter-spacing: 0.02em;
             box-shadow: 0 8px 24px var(--gold-glow);
             cursor: pointer;
             z-index: 99;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.2s;
         }
 
         .fab:active {
             transform: scale(0.95);
         }
 
-        /* Bottom Glass Nav Bar */
         nav {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: rgba(9, 13, 22, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -241,7 +281,7 @@
             border: none;
             background: none;
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -255,11 +295,13 @@
             color: var(--gold);
         }
 
-        /* Luxury Modal Form */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -283,8 +325,13 @@
         }
 
         @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
 
         .form-group {
@@ -295,13 +342,12 @@
             display: block;
             font-size: 0.8rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
             margin-bottom: 8px;
             color: var(--text-muted);
         }
 
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 14px 16px;
             background: rgba(255, 255, 255, 0.04);
@@ -310,12 +356,6 @@
             font-size: 1rem;
             color: var(--text-main);
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
         }
 
         .form-group select option {
@@ -359,7 +399,6 @@
             cursor: pointer;
         }
 
-        /* Elegant Bar Graphs */
         .report-bar-bg {
             background: rgba(255, 255, 255, 0.05);
             height: 8px;
@@ -367,6 +406,7 @@
             overflow: hidden;
             margin-top: 6px;
         }
+
         .report-bar-fill {
             background: linear-gradient(90deg, var(--accent), var(--gold));
             height: 100%;
@@ -374,188 +414,151 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <header>
         <h1>AMJAD BUDGET</h1>
         <div class="header-badge">PRO EDITION</div>
     </header>
-
     <main>
-        <!-- DASHBOARD VIEW -->
         <section id="dashboard-view" class="view active">
             <div class="grid-2">
                 <div class="stat-card">
-                    <div class="stat-lbl">Weekly Income</div>
+                    <div class="stat-lbl">الدخل الأسبوعي</div>
                     <div class="stat-val">$1,775</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-lbl">Monthly Income</div>
+                    <div class="stat-lbl">الدخل الشهري</div>
                     <div class="stat-val">$7,692</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-lbl">Monthly Budget</div>
+                    <div class="stat-lbl">الميزانية الشهرية</div>
                     <div class="stat-val">$6,107</div>
                 </div>
                 <div class="stat-card" style="border-color: rgba(16, 185, 129, 0.2);">
-                    <div class="stat-lbl">Saving</div>
+                    <div class="stat-lbl">الادخار المتوقع</div>
                     <div class="stat-val" style="color: var(--emerald); text-shadow: 0 0 10px var(--emerald-glow);">$1,585</div>
                 </div>
             </div>
-
-            <!-- Spending Progress Card -->
             <div class="card" style="margin-top: 14px;">
-                <div class="card-title">Monthly Spending Progress</div>
+                <div class="card-title">تقدم المصاريف المدفوعة</div>
                 <div class="grid-2">
                     <div>
-                        <div class="stat-lbl">Spent</div>
-                        <div class="stat-val" id="dash-spent" style="color: var(--rose);">$0</div>
+                        <div class="stat-lbl">المدفوع فعلياً</div>
+                        <div class="stat-val" id="dash-spent" style="color: var(--emerald);">$0</div>
                     </div>
                     <div>
-                        <div class="stat-lbl">Remaining</div>
+                        <div class="stat-lbl">المتبقي للدفع</div>
                         <div class="stat-val" id="dash-remaining">$6,107</div>
                     </div>
                 </div>
                 <div class="progress-container">
                     <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="dash-progress-fill"></div>
+                        <div class="progress-bar-fill" id="dash-progress-fill"><br></div>
                     </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted); text-align: right;" id="dash-percentage">0% used</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); text-align: left;" id="dash-percentage">0% تم دفعه</div>
                 </div>
             </div>
-
-            <!-- Transfer Plan Card -->
             <div class="card">
-                <div class="card-title">Transfer Plan</div>
-                <div class="list-item"><span>Saving</span><strong style="color: var(--emerald);">$1,585</strong></div>
-                <div class="list-item"><span>Tickets & Vacation</span><span>$650</span></div>
-                <div class="list-item"><span>Monthly Transfer Target</span><strong style="color: var(--gold);">$2,235</strong></div>
-                <div class="list-item"><span>Weekly Transfer Target</span><strong style="color: var(--gold);">$516</strong></div>
+                <div class="card-title">خطة التحويلات</div>
+                <div class="list-item"><span>الادخار (Saving)</span><strong style="color: var(--emerald);">$1,585</strong></div>
+                <div class="list-item"><span>التذاكر والإجازة (Tickets &amp; Vacation)</span><span>$650</span></div>
+                <div class="list-item"><span>هدف التحويل الشهري</span><strong style="color: var(--gold);">$2,235</strong></div>
+                <div class="list-item"><span>هدف التحويل الأسبوعي</span><strong style="color: var(--gold);">$516</strong></div>
             </div>
-
-            <!-- Fixed Monthly Categories Card -->
             <div class="card">
-                <div class="card-title">Fixed Budget Breakdown</div>
-                <div class="list-item"><span>Apartment Rent</span><span>$2,175</span></div>
-                <div class="list-item"><span>Electricity</span><span>$100</span></div>
-                <div class="list-item"><span>Phone with Internet</span><span>$187</span></div>
-                <div class="list-item"><span>Car Insurance</span><span>$165</span></div>
-                <div class="list-item"><span>Car Payment</span><span>$500</span></div>
-                <div class="list-item"><span>Gas</span><span>$150</span></div>
-                <div class="list-item"><span>Tickets & Vacation</span><span>$650</span></div>
-                <div class="list-item"><span>Ala Pocket</span><span>$150</span></div>
-                <div class="list-item"><span>Ala Phone</span><span>$60</span></div>
-                <div class="list-item"><span>Mama</span><span>$70</span></div>
-                <div class="list-item"><span>Charity</span><span>$100</span></div>
-                <div class="list-item"><span>Dana Academy</span><span>$120</span></div>
-                <div class="list-item"><span>Sophia's Karate</span><span>$180</span></div>
-                <div class="list-item"><span>Groceries & Shopping</span><span>$1,500</span></div>
+                <div class="card-title">تتبع المصاريف الثابتة (حدد ✅ عند الدفع)</div>
+                <div id="fixed-budget-list"><br></div>
             </div>
         </section>
-
-        <!-- EXPENSES VIEW -->
         <section id="expenses-view" class="view">
             <div class="card">
-                <div class="card-title">Recorded Expenses</div>
-                <div id="expense-list">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="card-title">المصاريف المسجلة</div>
+                <div id="expense-list"><br></div>
             </div>
         </section>
-
-        <!-- REPORTS VIEW -->
         <section id="reports-view" class="view">
             <div class="card">
-                <div class="card-title">Weekly Breakdown</div>
-                <div class="stat-lbl">Total Spent This Week</div>
+                <div class="card-title">تقرير المصاريف الأسبوعي</div>
+                <div class="stat-lbl">إجمالي المصروف هذا الأسبوع</div>
                 <div class="stat-val" id="rep-weekly-total" style="margin-bottom: 14px; color: var(--gold);">$0</div>
-                <div id="rep-weekly-cats"></div>
+                <div id="rep-weekly-cats"><br></div>
             </div>
-
             <div class="card">
-                <div class="card-title">Monthly Breakdown</div>
+                <div class="card-title">تقرير المصاريف الشهري</div>
                 <div class="grid-2" style="margin-bottom: 14px;">
                     <div>
-                        <div class="stat-lbl">Spent This Month</div>
+                        <div class="stat-lbl">إجمالي المدفوع شهرياً</div>
                         <div class="stat-val" id="rep-monthly-total" style="color: var(--rose);">$0</div>
                     </div>
                     <div>
-                        <div class="stat-lbl">Remaining</div>
+                        <div class="stat-lbl">المتبقي من الميزانية</div>
                         <div class="stat-val" id="rep-monthly-remaining">$6,107</div>
                     </div>
                 </div>
-                <div id="rep-monthly-cats"></div>
+                <div id="rep-monthly-cats"><br></div>
             </div>
-
             <div class="card">
-                <div class="card-title">All Time Breakdown</div>
-                <div class="stat-lbl">Total Recorded Expenses</div>
+                <div class="card-title">إجمالي السجلات</div>
+                <div class="stat-lbl">كل المصاريف المسجلة</div>
                 <div class="stat-val" id="rep-all-total" style="margin-bottom: 14px;">$0</div>
-                <div id="rep-all-cats"></div>
+                <div id="rep-all-cats"><br></div>
             </div>
         </section>
     </main>
-
-    <!-- Floating Add Button -->
-    <button class="fab" id="open-modal-btn">+ Add Expense</button>
-
-    <!-- Modal Form -->
+    <p><button class="fab" id="open-modal-btn">+ إضافة مصروف</button></p>
     <div class="modal" id="expense-modal">
         <div class="modal-content">
-            <h3 style="margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem;">Add New Expense</h3>
+            <h3 style="margin-bottom: 20px; font-size: 1.25rem;">إضافة مصروف جديد</h3>
             <form id="expense-form">
-                <div class="form-group">
-                    <label for="exp-amount">Amount ($)</label>
-                    <input type="number" step="0.01" id="exp-amount" required placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label for="exp-category">Category</label>
-                    <select id="exp-category" required>
-                        <option value="Groceries & Shopping">Groceries & Shopping</option>
-                        <option value="Gas">Gas</option>
-                        <option value="Dining">Dining</option>
-                        <option value="Kids">Kids</option>
-                        <option value="Car">Car</option>
-                        <option value="Bills">Bills</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exp-date">Date</label>
-                    <input type="date" id="exp-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="exp-note">Note</label>
-                    <input type="text" id="exp-note" placeholder="Optional details">
-                </div>
-                <button type="submit" class="btn-submit">Save Expense</button>
-                <button type="button" class="btn-cancel" id="close-modal-btn">Cancel</button>
+                <div class="form-group"><label for="exp-amount">المبلغ ($)</label> <input type="number" step="0.01" id="exp-amount" required="" placeholder="0.00"></div>
+                <div class="form-group"><label for="exp-category">الفئة / البند</label> <select id="exp-category" required="">&nbsp;<option value="Apartment Rent">إيجار الشقة (Apartment Rent)</option>
+                        <option value="Electricity">الكهرباء (Electricity)</option>
+                        <option value="Phone with Internet">الهاتف والإنترنت (***** with Internet)</option>
+                        <option value="Car Insurance">تأمين السيارة (*** Insurance)</option>
+                        <option value="Car Payment">قسط السيارة (Car Payment)</option>
+                        <option value="Gas">البنزين (Gas)</option>
+                        <option value="Tickets & Vacation">التذاكر والإجازة (Tickets &amp; Vacation)</option>
+                        <option value="Ala Pocket">مصروف علا (Ala Pocket)</option>
+                        <option value="Ala Phone">هاتف علا (Ala Phone)</option>
+                        <option value="Mama">ماما (Mama)</option>
+                        <option value="Charity">الصدقة (Charity)</option>
+                        <option value="Dana Academy">أكاديمية دانا (**** Academy)</option>
+                        <option value="Sophia's Karate">كارافيه صوفيا (Sophia&apos;s Karate)</option>
+                        <option value="Groceries & Shopping">المقاضي والتسوق (Groceries &amp; Shopping)</option>
+                        <option value="Dining">مطاعم (Dining)</option>
+                        <option value="Other">أخرى (Other)</option>&nbsp;
+                    </select></div>
+                <div class="form-group"><label for="exp-date">التاريخ</label> <input type="date" id="exp-date" required=""></div>
+                <div class="form-group"><label for="exp-note">ملاحظات</label> <input type="text" id="exp-note" placeholder="تفاصيل إضافية (اختياري)"></div><button type="submit" class="btn-submit">حفظ المصروف</button> <button type="button" class="btn-cancel" id="close-modal-btn">إلغاء</button>
             </form>
         </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <nav>
-        <button class="nav-item active" onclick="switchView('dashboard', this)">
-            <span>Dashboard</span>
-        </button>
-        <button class="nav-item" onclick="switchView('expenses', this)">
-            <span>Expenses</span>
-        </button>
-        <button class="nav-item" onclick="switchView('reports', this)">
-            <span>Reports</span>
-        </button>
-    </nav>
-
+    <nav><button class="nav-item active" onclick="switchView('dashboard', this)">&nbsp;<span>الرئيسية</span>&nbsp;</button> <button class="nav-item" onclick="switchView('expenses', this)">&nbsp;<span>المصاريف</span>&nbsp;</button> <button class="nav-item" onclick="switchView('reports', this)">&nbsp;<span>التقارير</span>&nbsp;</button></nav>
     <script>
         const MONTHLY_BUDGET = 6107;
+        const fixedCategories = [
+            { id: 'cat_rent', name: 'إيجار الشقة (Apartment Rent)', amount: 2175 },
+            { id: 'cat_elec', name: 'الكهرباء (Electricity)', amount: 100 },
+            { id: 'cat_net', name: 'الهاتف والإنترنت (Phone with Internet)', amount: 187 },
+            { id: 'cat_ins', name: 'تأمين السيارة (Car Insurance)', amount: 165 },
+            { id: 'cat_car', name: 'قسط السيارة (Car Payment)', amount: 500 },
+            { id: 'cat_gas', name: 'البنزين (Gas)', amount: 150 },
+            { id: 'cat_vac', name: 'التذاكر والإجازة (Tickets & Vacation)', amount: 650 },
+            { id: 'cat_ala_p', name: 'مصروف علا (Ala Pocket)', amount: 150 },
+            { id: 'cat_ala_ph', name: 'هاتف علا (Ala Phone)', amount: 60 },
+            { id: 'cat_mama', name: 'ماما (Mama)', amount: 70 },
+            { id: 'cat_charity', name: 'الصدقة (Charity)', amount: 100 },
+            { id: 'cat_dana', name: 'أكاديمية دانا (Dana Academy)', amount: 120 },
+            { id: 'cat_sophia', name: "كارافيه صوفيا (Sophia's Karate)", amount: 180 },
+            { id: 'cat_groc', name: 'المقاضي والتسوق (Groceries & Shopping)', amount: 1500 }
+        ];
+        
         let expenses = JSON.parse(localStorage.getItem('amjad_expenses')) || [];
-
-        // Set Default Date Input to Today
+        let paidStatus = JSON.parse(localStorage.getItem('amjad_paid_status')) || {};
+        
         document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
-
-        // Views Switching
+        
         function switchView(viewName, btn) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -564,20 +567,18 @@
             btn.classList.add('active');
             window.scrollTo(0,0);
         }
-
-        // Modal Controls
+        
         const modal = document.getElementById('expense-modal');
         document.getElementById('open-modal-btn').onclick = () => modal.classList.add('active');
         document.getElementById('close-modal-btn').onclick = () => modal.classList.remove('active');
-
-        // Form Submission
+        
         document.getElementById('expense-form').onsubmit = (e) => {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('exp-amount').value);
             const category = document.getElementById('exp-category').value;
             const date = document.getElementById('exp-date').value;
             const note = document.getElementById('exp-note').value;
-
+        
             const newExp = {
                 id: Date.now(),
                 amount,
@@ -585,38 +586,41 @@
                 date,
                 note
             };
-
+        
             expenses.push(newExp);
             saveAndRender();
             
-            // Reset & Close
             document.getElementById('expense-form').reset();
             document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
             modal.classList.remove('active');
         };
-
-        // Delete Functionality
+        
         function deleteExpense(id) {
-            if (confirm("Are you sure you want to delete this expense?")) {
+            if (confirm("هل أنت تأكد من حذف هذا المصروف؟")) {
                 expenses = expenses.filter(exp => exp.id !== id);
                 saveAndRender();
             }
         }
-
+        
+        function togglePaid(catId) {
+            paidStatus[catId] = !paidStatus[catId];
+            localStorage.setItem('amjad_paid_status', JSON.stringify(paidStatus));
+            renderDashboard();
+        }
+        
         function saveAndRender() {
             localStorage.setItem('amjad_expenses', JSON.stringify(expenses));
             renderDashboard();
             renderExpensesList();
             renderReports();
         }
-
-        // Helper: Date Logic
+        
         function isThisMonth(dateStr) {
             const expDate = new Date(dateStr + 'T00:00:00');
             const now = new Date();
             return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
         }
-
+        
         function isThisWeek(dateStr) {
             const expDate = new Date(dateStr + 'T00:00:00');
             const now = new Date();
@@ -624,31 +628,44 @@
             firstDayOfWeek.setHours(0,0,0,0);
             return expDate >= firstDayOfWeek;
         }
-
-        // Render Dashboard
+        
         function renderDashboard() {
-            const thisMonthExpenses = expenses.filter(e => isThisMonth(e.date));
-            const totalSpent = thisMonthExpenses.reduce((sum, e) => sum + e.amount, 0);
-            const remaining = MONTHLY_BUDGET - totalSpent;
-            const pct = Math.min(Math.round((totalSpent / MONTHLY_BUDGET) * 100), 100);
-
-            document.getElementById('dash-spent').innerText = `$${totalSpent.toLocaleString()}`;
+            const fixedContainer = document.getElementById('fixed-budget-list');
+            let totalPaidFixed = 0;
+        
+            fixedContainer.innerHTML = fixedCategories.map(cat => {
+                const isChecked = !!paidStatus[cat.id];
+                if (isChecked) totalPaidFixed += cat.amount;
+        
+                return `
+                    <div class="list-item">
+                        <div style="display: flex; align-items: center;">
+                            <input type="checkbox" class="item-checkbox" ${isChecked ? 'checked' : ''} onchange="togglePaid('${cat.id}')">
+                            <span class="${isChecked ? 'paid-text' : ''}" style="margin-right: 10px; font-weight: 600;">${cat.name}</span>
+                        </div>
+                        <strong class="${isChecked ? 'paid-text' : ''}">$${cat.amount.toLocaleString()}</strong>
+                    </div>
+                `;
+            }).join('');
+        
+            const remaining = MONTHLY_BUDGET - totalPaidFixed;
+            const pct = Math.min(Math.round((totalPaidFixed / MONTHLY_BUDGET) * 100), 100);
+        
+            document.getElementById('dash-spent').innerText = `$${totalPaidFixed.toLocaleString()}`;
             document.getElementById('dash-remaining').innerText = `$${remaining.toLocaleString()}`;
-            document.getElementById('dash-percentage').innerText = `${pct}% used`;
+            document.getElementById('dash-percentage').innerText = `${pct}% تم دفعها بالكامل ✅`;
             document.getElementById('dash-progress-fill').style.width = `${pct}%`;
         }
-
-        // Render Expense List
+        
         function renderExpensesList() {
             const container = document.getElementById('expense-list');
             if (expenses.length === 0) {
-                container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 24px 0; font-size: 0.9rem;">No expenses recorded yet.</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 24px 0; font-size: 0.9rem;">لا توجد مصاريف مسجلة حتى الآن.</div>';
                 return;
             }
-
-            // Sort newest first
+        
             const sorted = [...expenses].sort((a,b) => new Date(b.date) - new Date(a.date));
-
+        
             container.innerHTML = sorted.map(e => `
                 <div class="list-item">
                     <div>
@@ -657,21 +674,20 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <span style="font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); font-size: 1.05rem;">$${e.amount.toFixed(2)}</span>
-                        <button class="btn-delete" onclick="deleteExpense(${e.id})">Delete</button>
+                        <button class="btn-delete" onclick="deleteExpense(${e.id})">حذف</button>
                     </div>
                 </div>
             `).join('');
         }
-
-        // Render Reports
+        
         function renderReports() {
             const buildBreakdown = (items) => {
                 const total = items.reduce((sum, e) => sum + e.amount, 0);
-                if (total === 0) return '<div style="font-size:0.85rem; color:var(--text-muted); padding: 8px 0;">No records in this period.</div>';
+                ** (***** === 0) return '<div style="font-size:0.85rem; color:var(--text-muted); padding: 8px 0;">لا توجد مصاريف لهذه الفترة.</div>';
                 
                 const cats = {};
                 items.forEach(e => cats[e.category] = (cats[e.category] || 0) + e.amount);
-
+        
                 return Object.keys(cats).map(cat => {
                     const amt = cats[cat];
                     const pct = Math.round((amt / total) * 100);
@@ -688,28 +704,27 @@
                     `;
                 }).join('');
             };
-
-            // 1. Weekly
+        
             const weeklyExps = expenses.filter(e => isThisWeek(e.date));
             const weeklyTotal = weeklyExps.reduce((sum, e) => sum + e.amount, 0);
             document.getElementById('rep-weekly-total').innerText = `$${weeklyTotal.toLocaleString()}`;
             document.getElementById('rep-weekly-cats').innerHTML = buildBreakdown(weeklyExps);
-
-            // 2. Monthly
+        
             const monthlyExps = expenses.filter(e => isThisMonth(e.date));
             const monthlyTotal = monthlyExps.reduce((sum, e) => sum + e.amount, 0);
             document.getElementById('rep-monthly-total').innerText = `$${monthlyTotal.toLocaleString()}`;
             document.getElementById('rep-monthly-remaining').innerText = `$${(MONTHLY_BUDGET - monthlyTotal).toLocaleString()}`;
             document.getElementById('rep-monthly-cats').innerHTML = buildBreakdown(monthlyExps);
-
-            // 3. All
+        
             const allTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
             document.getElementById('rep-all-total').innerText = `$${allTotal.toLocaleString()}`;
             document.getElementById('rep-all-cats').innerHTML = buildBreakdown(expenses);
         }
-
-        // Initial Initialization
+        
         saveAndRender();
     </script>
+
+<div style="color: red">Word to HTML trial - please <a href="https://wordtohtml.net/site/payment">Go PRO</a> to get whole HTML.</div>
 </body>
+
 </html>
