@@ -1,72 +1,715 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Amjad Budget</title>
-<style>
-body{margin:0;background:#f4f6f8;font-family:Arial,sans-serif;color:#172033}
-main{max-width:680px;margin:auto;padding:24px 16px}
-h1{margin:0 0 5px;font-size:30px}.muted{color:#687386;margin-bottom:20px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:white;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
-.label{font-size:13px;color:#687386}.number{font-size:26px;font-weight:bold;margin-top:6px}
-.blue{color:#2563eb}.green{color:#16a34a}.red{color:#e11d48}
-h2{font-size:20px;margin:22px 0 10px}
-.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}
-.total{font-weight:bold;background:#fff7cc;padding:12px;border-radius:10px;margin-top:10px}
-.big{text-align:center;background:#fff0f3;padding:18px;border-radius:14px;margin-top:12px}
-.big strong{display:block;font-size:40px;color:#e11d48;margin:4px}
-@media(max-width:430px){.cards{grid-template-columns:1fr}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Amjad Budget</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --card-bg: rgba(18, 24, 38, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-glow: rgba(99, 102, 241, 0.05);
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.25);
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.35);
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.2);
+            --rose: #f43f5e;
+            
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            padding-bottom: 110px;
+            min-height: 100vh;
+        }
+
+        /* Ambient Glow Header */
+        header {
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-badge {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--gold);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Layout */
+        main {
+            padding: 20px 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 18px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .stat-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Glowing Progress Bar */
+        .progress-container {
+            margin-top: 14px;
+        }
+        .progress-bar-bg {
+            background: rgba(255, 255, 255, 0.06);
+            height: 10px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            box-shadow: 0 0 12px var(--accent-glow);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 20px;
+        }
+
+        /* List Styling */
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Floating Add Button */
+        .fab {
+            position: fixed;
+            bottom: 82px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
+            color: #000000;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 26px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            box-shadow: 0 8px 24px var(--gold-glow);
+            cursor: pointer;
+            z-index: 99;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        /* Bottom Glass Nav Bar */
+        nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 24px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active {
+            color: var(--gold);
+        }
+
+        /* Luxury Modal Form */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            width: 100%;
+            max-width: 600px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 28px 24px 36px 24px;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .form-group select option {
+            background: #0f172a;
+            color: var(--text-main);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--gold-glow);
+            margin-top: 8px;
+        }
+
+        .btn-cancel {
+            width: 100%;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 12px;
+            margin-top: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: var(--rose);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Elegant Bar Graphs */
+        .report-bar-bg {
+            background: rgba(255, 255, 255, 0.05);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .report-bar-fill {
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            height: 100%;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-<main>
-<h1>Amjad Budget</h1>
-<div class="muted">Final Budget</div>
 
-<div class="cards">
-<div class="card"><div class="label">Weekly Income</div><div class="number blue">$1,775</div></div>
-<div class="card"><div class="label">Monthly Income</div><div class="number blue">$7,692</div></div>
-<div class="card"><div class="label">Monthly Expenses</div><div class="number">$6,107</div></div>
-<div class="card"><div class="label">Remaining</div><div class="number green">$1,585</div></div>
-</div>
+    <header>
+        <h1>AMJAD BUDGET</h1>
+        <div class="header-badge">PRO EDITION</div>
+    </header>
 
-<h2>Monthly Expenses</h2>
-<div class="card">
-<div class="row"><span>Apartment Rent</span><b>$2,175</b></div>
-<div class="row"><span>Electricity</span><b>$100</b></div>
-<div class="row"><span>Phone with Internet</span><b>$187</b></div>
-<div class="row"><span>Car Insurance</span><b>$165</b></div>
-<div class="row"><span>Car Payment</span><b>$500</b></div>
-<div class="row"><span>Gas</span><b>$150</b></div>
-<div class="row"><span>Tickets &amp; Vacation</span><b>$650</b></div>
-<div class="row"><span>Ala Pocket</span><b>$150</b></div>
-<div class="row"><span>Ala Phone</span><b>$60</b></div>
-<div class="row"><span>Mama</span><b>$70</b></div>
-<div class="row"><span>Charity</span><b>$100</b></div>
-<div class="row"><span>Dana Academy</span><b>$120</b></div>
-<div class="row"><span>Sophia's Karate</span><b>$180</b></div>
-<div class="row"><span>Groceries &amp; Shopping</span><b>$1,500</b></div>
-<div class="total">Total Monthly Expenses: $6,107</div>
-</div>
+    <main>
+        <!-- DASHBOARD VIEW -->
+        <section id="dashboard-view" class="view active">
+            <div class="grid-2">
+                <div class="stat-card">
+                    <div class="stat-lbl">Weekly Income</div>
+                    <div class="stat-val">$1,775</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-lbl">Monthly Income</div>
+                    <div class="stat-val">$7,692</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-lbl">Monthly Budget</div>
+                    <div class="stat-val">$6,107</div>
+                </div>
+                <div class="stat-card" style="border-color: rgba(16, 185, 129, 0.2);">
+                    <div class="stat-lbl">Saving</div>
+                    <div class="stat-val" style="color: var(--emerald); text-shadow: 0 0 10px var(--emerald-glow);">$1,585</div>
+                </div>
+            </div>
 
-<h2>Weekly Transfer</h2>
-<div class="card">
-<div class="row"><span>Saving after expenses</span><b>$1,585/mo</b></div>
-<div class="row"><span>Tickets &amp; Vacation</span><b>$650/mo</b></div>
-<div class="total">Monthly Transfer: $2,235</div>
-<div class="big"><span class="label">Transfer every week</span><strong>$516</strong><span class="muted">$2,235 × 12 ÷ 52 = $515.77</span></div>
-</div>
+            <!-- Spending Progress Card -->
+            <div class="card" style="margin-top: 14px;">
+                <div class="card-title">Monthly Spending Progress</div>
+                <div class="grid-2">
+                    <div>
+                        <div class="stat-lbl">Spent</div>
+                        <div class="stat-val" id="dash-spent" style="color: var(--rose);">$0</div>
+                    </div>
+                    <div>
+                        <div class="stat-lbl">Remaining</div>
+                        <div class="stat-val" id="dash-remaining">$6,107</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="dash-progress-fill"></div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); text-align: right;" id="dash-percentage">0% used</div>
+                </div>
+            </div>
 
-<h2>Summary</h2>
-<div class="card">
-<div class="row"><span>Income</span><b class="green">$7,692</b></div>
-<div class="row"><span>Expenses</span><b>$6,107</b></div>
-<div class="row"><span>Saving</span><b>$1,585</b></div>
-<div class="row"><span>Vacation &amp; Tickets</span><b>$650</b></div>
-<div class="total">Weekly transfer: $516</div>
-</div>
-</main>
+            <!-- Transfer Plan Card -->
+            <div class="card">
+                <div class="card-title">Transfer Plan</div>
+                <div class="list-item"><span>Saving</span><strong style="color: var(--emerald);">$1,585</strong></div>
+                <div class="list-item"><span>Tickets & Vacation</span><span>$650</span></div>
+                <div class="list-item"><span>Monthly Transfer Target</span><strong style="color: var(--gold);">$2,235</strong></div>
+                <div class="list-item"><span>Weekly Transfer Target</span><strong style="color: var(--gold);">$516</strong></div>
+            </div>
+
+            <!-- Fixed Monthly Categories Card -->
+            <div class="card">
+                <div class="card-title">Fixed Budget Breakdown</div>
+                <div class="list-item"><span>Apartment Rent</span><span>$2,175</span></div>
+                <div class="list-item"><span>Electricity</span><span>$100</span></div>
+                <div class="list-item"><span>Phone with Internet</span><span>$187</span></div>
+                <div class="list-item"><span>Car Insurance</span><span>$165</span></div>
+                <div class="list-item"><span>Car Payment</span><span>$500</span></div>
+                <div class="list-item"><span>Gas</span><span>$150</span></div>
+                <div class="list-item"><span>Tickets & Vacation</span><span>$650</span></div>
+                <div class="list-item"><span>Ala Pocket</span><span>$150</span></div>
+                <div class="list-item"><span>Ala Phone</span><span>$60</span></div>
+                <div class="list-item"><span>Mama</span><span>$70</span></div>
+                <div class="list-item"><span>Charity</span><span>$100</span></div>
+                <div class="list-item"><span>Dana Academy</span><span>$120</span></div>
+                <div class="list-item"><span>Sophia's Karate</span><span>$180</span></div>
+                <div class="list-item"><span>Groceries & Shopping</span><span>$1,500</span></div>
+            </div>
+        </section>
+
+        <!-- EXPENSES VIEW -->
+        <section id="expenses-view" class="view">
+            <div class="card">
+                <div class="card-title">Recorded Expenses</div>
+                <div id="expense-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- REPORTS VIEW -->
+        <section id="reports-view" class="view">
+            <div class="card">
+                <div class="card-title">Weekly Breakdown</div>
+                <div class="stat-lbl">Total Spent This Week</div>
+                <div class="stat-val" id="rep-weekly-total" style="margin-bottom: 14px; color: var(--gold);">$0</div>
+                <div id="rep-weekly-cats"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Monthly Breakdown</div>
+                <div class="grid-2" style="margin-bottom: 14px;">
+                    <div>
+                        <div class="stat-lbl">Spent This Month</div>
+                        <div class="stat-val" id="rep-monthly-total" style="color: var(--rose);">$0</div>
+                    </div>
+                    <div>
+                        <div class="stat-lbl">Remaining</div>
+                        <div class="stat-val" id="rep-monthly-remaining">$6,107</div>
+                    </div>
+                </div>
+                <div id="rep-monthly-cats"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">All Time Breakdown</div>
+                <div class="stat-lbl">Total Recorded Expenses</div>
+                <div class="stat-val" id="rep-all-total" style="margin-bottom: 14px;">$0</div>
+                <div id="rep-all-cats"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Add Button -->
+    <button class="fab" id="open-modal-btn">+ Add Expense</button>
+
+    <!-- Modal Form -->
+    <div class="modal" id="expense-modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem;">Add New Expense</h3>
+            <form id="expense-form">
+                <div class="form-group">
+                    <label for="exp-amount">Amount ($)</label>
+                    <input type="number" step="0.01" id="exp-amount" required placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="exp-category">Category</label>
+                    <select id="exp-category" required>
+                        <option value="Groceries & Shopping">Groceries & Shopping</option>
+                        <option value="Gas">Gas</option>
+                        <option value="Dining">Dining</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Car">Car</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exp-date">Date</label>
+                    <input type="date" id="exp-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="exp-note">Note</label>
+                    <input type="text" id="exp-note" placeholder="Optional details">
+                </div>
+                <button type="submit" class="btn-submit">Save Expense</button>
+                <button type="button" class="btn-cancel" id="close-modal-btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav>
+        <button class="nav-item active" onclick="switchView('dashboard', this)">
+            <span>Dashboard</span>
+        </button>
+        <button class="nav-item" onclick="switchView('expenses', this)">
+            <span>Expenses</span>
+        </button>
+        <button class="nav-item" onclick="switchView('reports', this)">
+            <span>Reports</span>
+        </button>
+    </nav>
+
+    <script>
+        const MONTHLY_BUDGET = 6107;
+        let expenses = JSON.parse(localStorage.getItem('amjad_expenses')) || [];
+
+        // Set Default Date Input to Today
+        document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+
+        // Views Switching
+        function switchView(viewName, btn) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById(`${viewName}-view`).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // Modal Controls
+        const modal = document.getElementById('expense-modal');
+        document.getElementById('open-modal-btn').onclick = () => modal.classList.add('active');
+        document.getElementById('close-modal-btn').onclick = () => modal.classList.remove('active');
+
+        // Form Submission
+        document.getElementById('expense-form').onsubmit = (e) => {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('exp-amount').value);
+            const category = document.getElementById('exp-category').value;
+            const date = document.getElementById('exp-date').value;
+            const note = document.getElementById('exp-note').value;
+
+            const newExp = {
+                id: Date.now(),
+                amount,
+                category,
+                date,
+                note
+            };
+
+            expenses.push(newExp);
+            saveAndRender();
+            
+            // Reset & Close
+            document.getElementById('expense-form').reset();
+            document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+            modal.classList.remove('active');
+        };
+
+        // Delete Functionality
+        function deleteExpense(id) {
+            if (confirm("Are you sure you want to delete this expense?")) {
+                expenses = expenses.filter(exp => exp.id !== id);
+                saveAndRender();
+            }
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('amjad_expenses', JSON.stringify(expenses));
+            renderDashboard();
+            renderExpensesList();
+            renderReports();
+        }
+
+        // Helper: Date Logic
+        function isThisMonth(dateStr) {
+            const expDate = new Date(dateStr + 'T00:00:00');
+            const now = new Date();
+            return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
+        }
+
+        function isThisWeek(dateStr) {
+            const expDate = new Date(dateStr + 'T00:00:00');
+            const now = new Date();
+            const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+            firstDayOfWeek.setHours(0,0,0,0);
+            return expDate >= firstDayOfWeek;
+        }
+
+        // Render Dashboard
+        function renderDashboard() {
+            const thisMonthExpenses = expenses.filter(e => isThisMonth(e.date));
+            const totalSpent = thisMonthExpenses.reduce((sum, e) => sum + e.amount, 0);
+            const remaining = MONTHLY_BUDGET - totalSpent;
+            const pct = Math.min(Math.round((totalSpent / MONTHLY_BUDGET) * 100), 100);
+
+            document.getElementById('dash-spent').innerText = `$${totalSpent.toLocaleString()}`;
+            document.getElementById('dash-remaining').innerText = `$${remaining.toLocaleString()}`;
+            document.getElementById('dash-percentage').innerText = `${pct}% used`;
+            document.getElementById('dash-progress-fill').style.width = `${pct}%`;
+        }
+
+        // Render Expense List
+        function renderExpensesList() {
+            const container = document.getElementById('expense-list');
+            if (expenses.length === 0) {
+                container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 24px 0; font-size: 0.9rem;">No expenses recorded yet.</div>';
+                return;
+            }
+
+            // Sort newest first
+            const sorted = [...expenses].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = sorted.map(e => `
+                <div class="list-item">
+                    <div>
+                        <div style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">${e.category}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">${e.date} ${e.note ? '• ' + e.note : ''}</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <span style="font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); font-size: 1.05rem;">$${e.amount.toFixed(2)}</span>
+                        <button class="btn-delete" onclick="deleteExpense(${e.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Reports
+        function renderReports() {
+            const buildBreakdown = (items) => {
+                const total = items.reduce((sum, e) => sum + e.amount, 0);
+                if (total === 0) return '<div style="font-size:0.85rem; color:var(--text-muted); padding: 8px 0;">No records in this period.</div>';
+                
+                const cats = {};
+                items.forEach(e => cats[e.category] = (cats[e.category] || 0) + e.amount);
+
+                return Object.keys(cats).map(cat => {
+                    const amt = cats[cat];
+                    const pct = Math.round((amt / total) * 100);
+                    return `
+                        <div style="margin-top: 12px;">
+                            <div style="display:flex; justify-content: space-between; font-size: 0.85rem;">
+                                <span style="color: var(--text-main); font-weight: 500;">${cat}</span>
+                                <span style="font-weight:700; font-family: 'Space Grotesk', sans-serif;">$${amt.toFixed(2)} <span style="color: var(--text-muted); font-size: 0.75rem;">(${pct}%)</span></span>
+                            </div>
+                            <div class="report-bar-bg">
+                                <div class="report-bar-fill" style="width: ${pct}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            // 1. Weekly
+            const weeklyExps = expenses.filter(e => isThisWeek(e.date));
+            const weeklyTotal = weeklyExps.reduce((sum, e) => sum + e.amount, 0);
+            document.getElementById('rep-weekly-total').innerText = `$${weeklyTotal.toLocaleString()}`;
+            document.getElementById('rep-weekly-cats').innerHTML = buildBreakdown(weeklyExps);
+
+            // 2. Monthly
+            const monthlyExps = expenses.filter(e => isThisMonth(e.date));
+            const monthlyTotal = monthlyExps.reduce((sum, e) => sum + e.amount, 0);
+            document.getElementById('rep-monthly-total').innerText = `$${monthlyTotal.toLocaleString()}`;
+            document.getElementById('rep-monthly-remaining').innerText = `$${(MONTHLY_BUDGET - monthlyTotal).toLocaleString()}`;
+            document.getElementById('rep-monthly-cats').innerHTML = buildBreakdown(monthlyExps);
+
+            // 3. All
+            const allTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
+            document.getElementById('rep-all-total').innerText = `$${allTotal.toLocaleString()}`;
+            document.getElementById('rep-all-cats').innerHTML = buildBreakdown(expenses);
+        }
+
+        // Initial Initialization
+        saveAndRender();
+    </script>
 </body>
 </html>
